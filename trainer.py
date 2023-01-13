@@ -5,7 +5,6 @@ import utility
 import torch
 from torch.autograd import Variable
 from tqdm import tqdm
-from torch.utils.data import DataLoader
 
 class Trainer():
     def __init__(self, args, loader_train, loader_test, my_model, my_loss, ckp):
@@ -13,8 +12,8 @@ class Trainer():
         self.scale = args.scale
 
         self.ckp = ckp
-        self.loader_train = DataLoader(dataset=loader_train, num_workers=2, batch_size=args.batch_size, shuffle=True, pin_memory=True)
-        self.loader_test = DataLoader(dataset=loader_test, num_workers=2, batch_size=args.batch_size, shuffle=True, pin_memory=True)
+        self.loader_train = loader_train
+        self.loader_test = loader_test
         self.model = my_model
         self.loss = my_loss
         self.optimizer = utility.make_optimizer(args, self.model)

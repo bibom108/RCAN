@@ -42,7 +42,9 @@ class Trainer():
         timer_data, timer_model = utility.timer(), utility.timer()
         train_bar = tqdm(self.loader_train, total=len(self.loader_train))
 
-        for batch, (lr, hr) in enumerate(train_bar):
+        for lr, hr in train_bar:
+            batch = lr.size(0)
+
             lr, hr = self.prepare([lr, hr])
             timer_data.hold()
             timer_model.tic()
@@ -83,7 +85,7 @@ class Trainer():
         with torch.no_grad():
             eval_acc = 0
             test_bar = tqdm(self.loader_test, total=len(self.loader_test))
-            for idx_img, (lr, hr) in enumerate(test_bar):
+            for lr, hr in test_bar:
                 # filename = filename[0]
                 no_eval = (hr.nelement() == 1)
                 if not no_eval:

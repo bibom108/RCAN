@@ -54,7 +54,7 @@ class DS_TRAIN(Dataset):
 
 class DS_TEST(Dataset):
     def __init__(self, dataset_dir, crop_size, upscale_factor):
-        super(DS_TRAIN, self).__init__()
+        super(DS_TEST, self).__init__()
         print('Setting up data...')
 
         self.image_filenames = []

@@ -19,9 +19,7 @@ def train_hr_transform(crop_size):
         transforms.RandomCrop(crop_size, pad_if_needed=True),
         transforms.RandomHorizontalFlip(p=0.5),
         transforms.RandomVerticalFlip(p=0.5),
-        transforms.RandomApply(transforms=[
-            transforms.RandomRotation(degrees=90, interpolation = transforms.InterpolationMode.BICUBIC), 
-            ], p=0.5),
+        transforms.RandomApply(transforms=[transforms.RandomRotation(degrees=90, interpolation = transforms.InterpolationMode.BICUBIC)], p=0.5),
         transforms.ToTensor()
     ])
 

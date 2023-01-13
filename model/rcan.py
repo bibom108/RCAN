@@ -73,7 +73,7 @@ class RCAN(nn.Module):
         n_feats = args.n_feats
         kernel_size = 3
         reduction = args.reduction 
-        scale = args.scale[0]
+        scale = args.scale
         act = nn.ReLU(True)
         
         # RGB mean for DIV2K

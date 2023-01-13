@@ -63,7 +63,7 @@ class Trainer():
             if (batch + 1) % self.args.print_every == 0:
                 self.ckp.write_log('[{}/{}]\t{}\t{:.1f}+{:.1f}s'.format(
                     (batch + 1) * self.args.batch_size,
-                    len(self.loader_train.dataset),
+                    len(self.loader_train),
                     self.loss.display_loss(batch),
                     timer_model.release(),
                     timer_data.release()))
@@ -97,8 +97,7 @@ class Trainer():
                 save_list = [sr]
                 if not no_eval:
                     eval_acc += utility.calc_psnr(
-                        sr, hr, self.scale, self.args.rgb_range,
-                        benchmark=self.loader_test.dataset.benchmark
+                        sr, hr, self.scale, self.args.rgb_range
                     )
                     save_list.extend([lr, hr])
 

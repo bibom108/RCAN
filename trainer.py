@@ -50,7 +50,7 @@ class Trainer():
             timer_model.tic()
 
             self.optimizer.zero_grad()
-            sr = self.model(lr, self.scale)
+            sr = self.model(lr, 0)
             loss = self.loss(sr, hr)
             if loss.item() < self.args.skip_threshold * self.error_last:
                 loss.backward()
@@ -85,6 +85,7 @@ class Trainer():
         with torch.no_grad():
             eval_acc = 0
             test_bar = tqdm(self.loader_test, total=len(self.loader_test))
+
             for lr, hr in test_bar:
                 # filename = filename[0]
                 no_eval = (hr.nelement() == 1)
@@ -93,7 +94,7 @@ class Trainer():
                 else:
                     lr = self.prepare([lr])[0]
 
-                sr = self.model(lr, self.scale)
+                sr = self.model(lr, 0)
                 sr = utility.quantize(sr, self.args.rgb_range)
 
                 save_list = [sr]
@@ -106,15 +107,15 @@ class Trainer():
                 # if self.args.save_results:
                     # self.ckp.save_results(filename, save_list, scale)
 
-            self.ckp.log[-1, self.scale] = eval_acc / len(self.loader_test)
+            self.ckp.log[-1, 0] = eval_acc / len(self.loader_test)
             best = self.ckp.log.max(0)
             self.ckp.write_log(
                 '[{} x{}]\tPSNR: {:.3f} (Best: {:.3f} @epoch {})'.format(
                     self.args.data_test,
                     self.scale,
-                    self.ckp.log[-1, self.scale],
-                    best[0][self.scale],
-                    best[1][self.scale] + 1
+                    self.ckp.log[-1, 0],
+                    best[0][0],
+                    best[1][0] + 1
                 )
             )
 
